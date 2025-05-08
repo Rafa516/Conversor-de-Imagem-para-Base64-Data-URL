@@ -1,7 +1,5 @@
 # 🖼️ Conversor de Imagem para Data URL (Base64)
 
-![Screenshot](/assets/screenshot.png)
-
 Uma ferramenta web para conversão de imagens em Data URLs com codificação Base64, ideal para incorporação direta em HTML e CSS.
 
 ## 📚 Introdução
@@ -65,6 +63,7 @@ data:image/<formato>;base64,<dados codificados em base64>
    - O Data URL será copiado para a área de transferência
 
 ## 🌐 Demonstração Online
+Acesse a versão live: [Conversor de Imagem para Data URL (Base64)](https://conversor-imagem-para-base64-data-url.netlify.app/)
 
 
 
