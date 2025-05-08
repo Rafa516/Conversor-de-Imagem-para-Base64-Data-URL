@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Imagem para Base64</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .container-imagem {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            background: #f8f9fa;
+            transition: border-color 0.3s ease;
+        }
+        #codigoBase64 {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            min-height: 120px;
+        }
+        .copy-btn {
+            transition: all 0.2s ease;
+        }
+        .copy-btn:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="mb-0"><i class="bi bi-image"></i> Conversor de Imagem para Base64 - Data URL </h3>
+                    </div>
+                    
+                    <div class="card-body">
+                        <!-- Seção de upload -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Selecione uma imagem:</label>
+                            <div class="input-group">
+                                <input 
+                                    type="file" 
+                                    class="form-control" 
+                                    id="entradaArquivo"
+                                    accept="image/*"
+                                    onchange="atualizarPrevia()"
+                                >
+                                <span class="input-group-text">
+                                    <i class="bi bi-folder2-open"></i>
+                                </span>
+                            </div>
+                            <small class="form-text text-muted">Formatos suportados: JPG, PNG, GIF, WEBP</small>
+                        </div>
+
+                        <!-- Pré-visualização -->
+                        <div class="container-imagem p-3 mb-4 text-center">
+                            <img 
+                                src="#" 
+                                class="img-fluid rounded mw-100" 
+                                alt="Pré-visualização" 
+                                id="imagemPrevia"
+                                style="display: none; max-height: 300px;"
+                            >
+                            <div id="placeholderImagem" class="text-muted">
+                                <i class="bi bi-card-image display-6"></i><br>
+                                Nenhuma imagem selecionada
+                            </div>
+                        </div>
+
+                        <!-- Campo Base64 + Botão -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Data URL (Base64):</label>
+                            <div class="input-group">
+                                <textarea
+                                    id="codigoBase64"
+                                    class="form-control"
+                                    rows="6"
+                                    readonly
+                                    placeholder="data:image/..."
+                                ></textarea>
+                                <button 
+                                    class="btn btn-primary copy-btn" 
+                                    type="button"
+                                    onclick="copiarBase64()"
+                                    title="Copiar para área de transferência"
+                                >
+                                    <i class="bi bi-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function atualizarPrevia() {
+            const preview = document.getElementById('imagemPrevia');
+            const placeholder = document.getElementById('placeholderImagem');
+            const codigo = document.getElementById('codigoBase64');
+            const arquivo = document.getElementById('entradaArquivo').files[0];
+            const leitor = new FileReader();
+
+            leitor.onloadend = () => {
+                preview.src = leitor.result;
+                preview.style.display = 'block';
+                placeholder.style.display = 'none';
+                codigo.value = leitor.result;
+            }
+
+            arquivo ? leitor.readAsDataURL(arquivo) : resetarVisualizacao();
+        }
+
+        function resetarVisualizacao() {
+            document.getElementById('imagemPrevia').style.display = 'none';
+            document.getElementById('placeholderImagem').style.display = 'block';
+            document.getElementById('codigoBase64').value = '';
+        }
+
+        function copiarBase64() {
+            const codigo = document.getElementById('codigoBase64');
+            if (codigo.value) {
+                codigo.select();
+                navigator.clipboard.writeText(codigo.value);
+                alert('Código copiado com sucesso!');
+            }
+        }
+    </script>
+</body>
+</html>
