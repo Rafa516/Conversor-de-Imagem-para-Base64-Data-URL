@@ -1,0 +1,1 @@
+# Conversor-de-Imagem-para-Base64-Data-URL
